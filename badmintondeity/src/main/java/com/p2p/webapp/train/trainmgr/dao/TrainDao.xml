@@ -3,10 +3,6 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.p2p.webapp.train.trainmgr.dao.TrainDao">
-	<sql id="queryTrainWhereCondition">
-		<if test=" train_name != null and train_name != ''  "><![CDATA[ AND A.TRAIN_NAME LIKE '%'||#{train_name}||'%']]></if>
-		<if test=" user_id  != null and user_id != ''  "><![CDATA[ AND A.USER_ID = #{user_id} ]]></if>
-	</sql>
 	
 	<!-- 查询全部训练 -->
 	<select id="queryAllTrain" parameterType="TrainInfo" resultType="TrainInfo">
@@ -14,9 +10,10 @@
 			A.TRAIN_ID, A.TRAIN_NAME, A.TRAIN_NAME, A.USER_ID, A.TRAIN_TYPE, A.TRAIN_DEVICE_NAME, A.CONSUME_CALORIE, 
 			A.TRAIN_AMOUNT，A.TRAIN_BEGIN, A.TRAIN_END
 		FROM T_TRAIN_MANAGE A
-		WHERE 
-		<include refid="queryActivityWhereCondition" />
-		ORDER BY A.ACTIVITY_BEGIN DESC
+		WHERE 1 = 1
+		<if test=" train_name != null and train_name != ''  "><![CDATA[ AND A.TRAIN_NAME LIKE '%'||#{train_name}||'%']]></if>
+		<if test=" user_id  != null and user_id != ''  "><![CDATA[ AND A.USER_ID = #{user_id} ]]></if>
+		ORDER BY A.TRAIN_BEGIN DESC
 		LIMIT ${count}
 	</select>
 	
@@ -38,7 +35,7 @@
 	<insert id="addTrain" parameterType="TrainInfo">
 		INSERT INTO T_TRAIN_MANAGE
 		(TRAIN_ID, TRAIN_NAME, ACTIVITY_NAME, USER_ID, TRAIN_TYPE, TRAIN_DEVICE_NAME, CONSUME_CALORIE, 
-			TRAIN_AMOUNT，ACTIVITY_BEGIN, ACTIVITY_END)
+			TRAIN_AMOUNT，TRAIN_BEGIN, ACTIVITY_END)
 		VALUES
 		(#{train_id}, #{train_name}, #{user_id}, 0, #{train_type}, #{train_device_name}, #{consume_calorie}, #{train_amount}, #{train_begin},
 			#{train_end})

@@ -15,7 +15,7 @@
 	<!-- 训练-->
 	<!-- Dao-->
 	<bean id="trainDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="mapperInterface" value="com.p2p.webapp.train.trainmgr.TrainDao" />
+		<property name="mapperInterface" value="com.p2p.webapp.train.trainmgr.dao.TrainDao" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
 	</bean>
 	<!-- service -->
