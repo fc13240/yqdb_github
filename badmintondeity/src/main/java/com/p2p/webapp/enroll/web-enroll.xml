@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <package name="struts-enroll"  extends="struts-pub" namespace="/enroll">
+		<action name="*_*" method="{1}" class="{2}">
+			<!-- 报名列表页面 -->
+			<result name="enrollInit">/WEB-INF/views/enroll/enrollmgr/enrollInit.jsp</result>
+			<!-- 详细报名信息 -->
+			<result name="enrollDetailInfo">/WEB-INF/views/enroll/enrollmgr/enrollDetailInfo.jsp</result>
+			
+			<!-- 我的报名 -->
+			<result name="myEnrollInit">/WEB-INF/views/enroll/enrollmgr/myEnrollInit.jsp</result>
+			<!-- 跳转我的报名 -->
+		    <result name="toMyEnroll" type="redirect">/enroll/queryMyEnroll_enrollMgrAction.action</result>
+		    
+			<!-- 比赛详细信息跳转 -->
+			<result name="activityDetailInfo" type="redirect">/activity/queryActivityDetailInfo_activityMgrAction.action?activityId=${enrollVo.activity_id}</result>
+		
+			<!-- 订单页面 -->
+			<result name="myOrder">/WEB-INF/views/enroll/paymgr/order.jsp</result>
+			
+			<!-- 比赛详细信息跳转 -->
+			<result name="queryAllSettle" type="redirect">/settle/queryAllSettle_settleMgrAction.action</result>
+			
+			<!-- 比赛结算 跳转企业支付方法 -->
+		    <result name="enterprisesPay" type="redirect">/weixin/enterprisesPay_payAction.action?activityId=${settleVo.activity_id}</result>
+		 
+		</action>
+	</package>
+</struts>

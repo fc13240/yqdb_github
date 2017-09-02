@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.p2p.webapp.activity.activitymgr.dao.ActivityDao">
+	<sql id="queryActivityWhereCondition">
+		<if test=" activity_name != null and activity_name != ''  "><![CDATA[ AND A.ACTIVITY_NAME LIKE '%'||#{activity_name}||'%']]></if>
+		<if test=" group_id != null and group_id != ''  "><![CDATA[ AND A.GROUP_ID = #{group_id} ]]></if>
+		<if test=" user_id  != null and user_id != ''  "><![CDATA[ AND A.USER_ID = #{user_id} ]]></if>
+	</sql>
+	
+	<sql id="queryByTimeAreaCondition">
+		<if test=" site_addr_district != null and site_addr_district != ''  "><![CDATA[ AND S.SITE_ADDR_DISTRICT = #{site_addr_district} ]]></if>
+	</sql>
+	
+	<!-- 查询全部比赛 -->
+	<select id="queryAllActivity" parameterType="ActivityInfo" resultType="ActivityInfo">
+		SELECT
+			A.ACTIVITY_ID, A.GROUP_ID, A.ACTIVITY_NAME, A.ACTIVITY_STATUS, A.ACTIVITY_TYPE, A.USER_ID, A.ENROLL_ROLL_ID, 
+			A.ACTIVITY_BEGIN, A.ACTIVITY_END, A.ACTIVITY_ADDR, A.MANAGE_ID, S.SITE_NAME
+		FROM T_ACTIVITY_MANAGE A
+		LEFT JOIN T_SITE S ON A.ACTIVITY_ADDR = S.SITE_ADDR_ID  
+		WHERE A.ACTIVITY_STATUS != 3
+		<include refid="queryActivityWhereCondition" />
+		ORDER BY A.ACTIVITY_BEGIN DESC
+		LIMIT ${count}
+	</select>
+	
+	<!-- 根据时间区县查询比赛 -->
+	<select id="queryActivityByTimeArea" parameterType="ActivityInfo" resultType="ActivityInfo">
+		SELECT A.ACTIVITY_ID, A.ACTIVITY_NAME, A.ACTIVITY_STATUS, A.ACTIVITY_BEGIN, A.ACTIVITY_END, A.ENROLL_ROLL_ID, S.SITE_NAME, S.SITE_ADDR_DISTRICT  
+		FROM T_ACTIVITY_MANAGE A,T_SITE S 
+		WHERE  A.ACTIVITY_ADDR = S.SITE_ADDR_ID AND A.ACTIVITY_STATUS != 3 AND TO_DAYS(A.ACTIVITY_BEGIN) = TO_DAYS(#{activity_begin}) 
+		<include refid="queryByTimeAreaCondition" />
+		ORDER BY A.ACTIVITY_ID DESC
+		LIMIT ${count}
+	</select>
+	
+	<!-- 查询最新比赛 -->
+	<select id="queryAllNewActivity" parameterType="ActivityInfo" resultType="ActivityInfo">
+		SELECT 
+			A.ACTIVITY_ID, A.GROUP_ID, A.ACTIVITY_NAME, A.ACTIVITY_STATUS, A.ACTIVITY_TYPE, A.USER_ID, A.ENROLL_ROLL_ID, 
+			A.ACTIVITY_BEGIN, A.ACTIVITY_END, A.ACTIVITY_ADDR, A.MANAGE_ID, S.SITE_NAME
+		FROM T_ACTIVITY_MANAGE A
+		LEFT JOIN T_SITE S ON A.ACTIVITY_ADDR = S.SITE_ADDR_ID  
+		WHERE A.ACTIVITY_STATUS = 0
+		<include refid="queryActivityWhereCondition" />
+		ORDER BY A.ACTIVITY_BEGIN DESC
+		LIMIT ${count}
+	</select>
+
+	<!-- 查询历史比赛 -->
+	<select id="queryAllHistoryActivity" parameterType="ActivityInfo" resultType="ActivityInfo">
+		SELECT
+			A.ACTIVITY_ID, A.GROUP_ID, A.ACTIVITY_NAME, A.ACTIVITY_STATUS, A.ACTIVITY_TYPE, A.USER_ID, A.ENROLL_ROLL_ID, 
+			A.ACTIVITY_BEGIN, A.ACTIVITY_END, A.ACTIVITY_ADDR, A.MANAGE_ID, S.SITE_NAME
+		FROM T_ACTIVITY_MANAGE A
+		LEFT JOIN T_SITE S ON A.ACTIVITY_ADDR = S.SITE_ADDR_ID  
+		WHERE A.ACTIVITY_STATUS IN (1,2)
+		<include refid="queryActivityWhereCondition" />
+		ORDER BY A.ACTIVITY_BEGIN DESC
+		LIMIT ${count}
+	</select>
+	
+	<!-- 查询比赛详细信息 -->
+	<select id="queryActivityDetailInfo" parameterType="ActivityInfo" resultType="ActivityInfo">
+		SELECT
+			A.ACTIVITY_ID, A.GROUP_ID, G.GROUP_NAME, G.GROUP_LOGO, A.ACTIVITY_NAME, A.ACTIVITY_STATUS, A.ACTIVITY_TYPE, A.USER_ID, A.ENROLL_ROLL_ID, 
+			A.ACTIVITY_BEGIN, A.ACTIVITY_END, A.ACTIVITY_ADDR, A.MANAGE_ID, S.SITE_NAME
+		FROM T_ACTIVITY_MANAGE A, T_SITE S, T_GROUP_MANAGE G	
+		WHERE S.SITE_ADDR_ID = A.ACTIVITY_ADDR AND G.GROUP_ID = A.GROUP_ID 
+			AND A.ACTIVITY_ID  = #{activity_id}
+	</select>
+	
+	<!-- 获取下一个比赛ACTIVITY_ID -->
+	<select id="queryActivityId"  resultType="string">
+		SELECT IFNULL(MAX(ACTIVITY_ID)+1,0) FROM T_ACTIVITY_MANAGE
+	</select>
+	
+	<!-- 添加新比赛 -->
+	<insert id="addActivity" parameterType="ActivityInfo">
+		INSERT INTO T_ACTIVITY_MANAGE
+		(ACTIVITY_ID, GROUP_ID, ACTIVITY_NAME, ACTIVITY_STATUS, ACTIVITY_TYPE, USER_ID, ENROLL_ROLL_ID,
+			 ACTIVITY_BEGIN, ACTIVITY_END, ACTIVITY_ADDR, MANAGE_ID, CREATE_DATE, UPDATE_DATE)
+		VALUES
+		(#{activity_id}, #{group_id}, #{activity_name}, 0, #{activity_type}, #{user_id}, #{enroll_roll_id}, #{activity_begin},
+			#{activity_end}, #{activity_addr}, #{manage_id}, NOW(), NOW())
+	</insert>
+	
+	<!-- 修改比赛信息 -->
+	<update id="updateActivity" parameterType="ActivityInfo" >
+			UPDATE
+				T_ACTIVITY_MANAGE
+			SET
+				ACTIVITY_NAME = #{activity_name},
+				ACTIVITY_STATUS = #{activity_status},
+				ACTIVITY_TYPE = #{activity_type},
+				ENROLL_ROLL_ID = #{enroll_roll_id},
+				ACTIVITY_BEGIN = #{activity_begin},
+				ACTIVITY_END = #{activity_end},
+				ACTIVITY_ADDR = #{activity_addr},
+				MANAGE_ID = #{manage_id},
+				UPDATE_DATE = NOW()
+			WHERE
+				ACTIVITY_ID = #{activity_id}
+	</update>
+
+	<!-- 删除比赛 ——预留 -->
+
+</mapper>

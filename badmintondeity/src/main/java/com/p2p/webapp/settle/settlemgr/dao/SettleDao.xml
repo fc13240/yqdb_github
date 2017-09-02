@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.p2p.webapp.settle.settlemgr.dao.SettleDao">
+
+	<!-- 查询已结算比赛-->
+	<select id="querySettledActivity" parameterType="SettleInfo" resultType="SettleInfo">
+		SELECT 
+			A.ACTIVITY_ID, A.SETTLE_STATUS, A.UPDATE_DATE, M.ACTIVITY_NAME
+		FROM T_ACTIVITY_SETTLE A, T_ACTIVITY_MANAGE M
+		WHERE 
+			A.ACTIVITY_ID = M.ACTIVITY_ID AND M.USER_ID = #{user_id} AND A.SETTLE_STATUS = 1
+	</select>
+	
+	<!-- 查询未结算的比赛 -->
+	<select id="queryNotsettledActivity" parameterType="ActivityInfo" resultType="ActivityInfo">
+		SELECT
+			A.ACTIVITY_ID, A.GROUP_ID, A.ACTIVITY_NAME, A.ACTIVITY_STATUS, A.ACTIVITY_TYPE, A.USER_ID, A.ENROLL_ROLL_ID, 
+			A.ACTIVITY_BEGIN, A.ACTIVITY_END, A.ACTIVITY_ADDR, A.MANAGE_ID, S.SITE_NAME
+		FROM T_ACTIVITY_MANAGE A
+		LEFT JOIN T_SITE S ON A.ACTIVITY_ADDR = S.SITE_ADDR_ID  
+		WHERE A.ACTIVITY_STATUS = 1
+		ORDER BY A.ACTIVITY_ID DESC
+	</select>
+	
+	<!-- 查询结算信息-->
+	<select id="querySettleDetailInfo" parameterType="SettleInfo" resultType="SettleInfo">
+		SELECT
+			A.SETTLE_ID, A.SETTLE_STATUS, A.ACTIVITY_ID, A.COST, A.USER_ID, A.PAY_TYPE, A.PAY_NO, A.UPDATE_DATE, M.ACTIVITY_NAME			
+		FROM T_ACTIVITY_SETTLE A, T_ACTIVITY_MANAGE M
+		WHERE A.ACTIVITY_ID = M.ACTIVITY_ID AND A.ACTIVITY_ID = #{activity_id}
+	</select>
+	
+	<!-- 获取下一个比赛ACTIVITY_ID -->
+	<select id="querySettleId"  resultType="string">
+		SELECT IFNULL(MAX(SETTLE_ID)+1,0) FROM T_ACTIVITY_SETTLE
+	</select>	
+	
+	<!-- 添加新比赛结算信息 -->
+	<insert id="addSettle" parameterType="SettleInfo">
+		INSERT INTO T_ACTIVITY_SETTLE
+			(SETTLE_ID, SETTLE_STATUS, ACTIVITY_ID, COST, USER_ID, PAY_TYPE, PAY_NO, CREATE_DATE, UPDATE_DATE)
+		VALUES
+			(#{settle_id}, #{settle_status}, #{activity_id}, #{cost}, #{user_id}, #{pay_type}, #{pay_no}, NOW(), NOW())
+	</insert>
+	
+	<!-- 修改比赛结算信息 -->
+	<update id="updateSettle" parameterType="SettleInfo">
+			UPDATE
+				T_ACTIVITY_SETTLE
+			SET
+				SETTLE_STATUS = #{settle_status},
+				COST = #{cost},
+				PAY_TYPE = #{pay_type},
+				PAY_NO =#{pay_no},
+				UPDATE_DATE = NOW()
+			WHERE 
+				ACTIVITY_ID = #{activity_id}
+	</update>
+
+</mapper>

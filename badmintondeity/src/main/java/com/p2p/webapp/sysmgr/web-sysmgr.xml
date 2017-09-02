@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="struts-usrmgr"  extends="struts-pub" namespace="/usrmgr">
+		<action name="*_*" method="{1}" class="{2}">
+			<result name="queryUserInfook">/WEB-INF/views/sysmgr/usrmgr/usrmgr.jsp</result>
+			<result name="queryMoreInfoOk">/WEB-INF/views/sysmgr/usrmgr/usrmoreinfo.jsp</result>
+		</action>
+	</package>
+</struts>

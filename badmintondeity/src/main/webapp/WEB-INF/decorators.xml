@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<decorators defaultdir="/WEB-INF/decorators">
+	<excludes>
+		<pattern>*/static/*</pattern>
+		<pattern>*/ajax/*</pattern>
+		<pattern>*/include/*</pattern>
+		<pattern>*/city/*</pattern>
+		<pattern>*/city</pattern>
+		<pattern>*/weixin/*</pattern>
+		<pattern>*/weixin</pattern>
+		<!-- <pattern>*/weixin/*</pattern> -->
+	</excludes>
+
+	<decorator name="bmdt" page="mainbmdt.jsp">
+
+		<pattern>*/init/*</pattern>
+		<pattern>*/init</pattern>
+		<pattern>*/login/*</pattern>
+		<pattern>*/login</pattern>
+		<pattern>*/activity/*</pattern>
+		<pattern>*/activity</pattern>
+		<pattern>*/group/*</pattern>
+		<pattern>*/group</pattern>
+		<pattern>*/member/*</pattern>
+		<pattern>*/member</pattern>
+		<pattern>*/usercenter/*</pattern>
+		<pattern>*/usercenter</pattern>
+		<pattern>*/enroll/*</pattern>
+		<pattern>*/enroll</pattern>
+		<pattern>*/settle/*</pattern>
+		<pattern>*/settle</pattern>
+		<pattern>*/message/*</pattern>
+		<pattern>*/message</pattern>
+		<pattern>*/rank/*</pattern>
+		<pattern>*/rank</pattern>
+		
+		<pattern>*/regist/*</pattern>
+		<pattern>*/regist</pattern>
+		<pattern>*/common/*</pattern>
+		<pattern>*/common</pattern>
+
+
+	</decorator>
+
+	<!-- 羽神项目:顶部,导航,尾部 -->
+	<decorator name="main_headerbmdt"
+		page="/WEB-INF/views/include/pagebmdt/main_header.jsp"></decorator>
+	<decorator name="main_footerbmdt"
+		page="/WEB-INF/views/include/pagebmdt/main_footer.jsp"></decorator>
+
+
+</decorators>

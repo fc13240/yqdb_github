@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.p2p.webapp.user.index.dao.IndexDao">
+	<!-- 查询最新比赛 -->
+	<select id="queryNewActivity" resultType="ActivityInfo">
+		SELECT ACTIVITY_ID, ACTIVITY_NAME, A.ACTIVITY_BEGIN, A.ACTIVITY_END, A.ACTIVITY_ADDR, A.ACTIVITY_STATUS, A.ENROLL_ROLL_ID, S.SITE_NAME
+		FROM
+			T_ACTIVITY_MANAGE A, T_SITE S
+		WHERE ACTIVITY_STATUS = 0 AND A.ACTIVITY_ADDR = S.SITE_ADDR_ID
+		ORDER BY ACTIVITY_BEGIN DESC
+		LIMIT 0,3
+	</select>
+</mapper>

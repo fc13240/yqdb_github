@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <package name="struts-group"  extends="struts-pub" namespace="/group">
+		<action name="*_*" method="{1}" class="{2}">
+			<!-- 群管理初始化页面 -->
+			<result name="groupInit">/WEB-INF/views/group/groupmgr/groupInit.jsp</result>
+			
+			<!-- 群详细信息页面 -->
+			<result name="groupDetailInfo">/WEB-INF/views/group/groupmgr/groupDetailInfo.jsp</result>
+			
+			<!-- 新增群页面 -->
+			<result name="addGroupInit">/WEB-INF/views/group/groupmgr/addGroup.jsp</result>
+			
+			<!-- 我的群页面 -->
+			<result name="myGroup">/WEB-INF/views/group/groupmgr/myGroup.jsp</result>
+		</action>
+	</package>
+</struts>

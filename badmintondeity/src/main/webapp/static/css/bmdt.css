@@ -1,0 +1,140 @@
+li {
+	list-style-type: none;
+}
+
+/* 最新比赛 */
+.newactivity-wrapper {
+	padding: 5px 0px;
+}
+
+.trapezium {
+	height: 50px;
+	margin: 0 auto;
+	border-left: 20px solid #e5c3b2;
+	border-top: 10px solid transparent;
+	border-bottom: 10px solid transparent;
+}
+
+/* 分割线 */
+.pinkline {
+	border-bottom: 1px solid #FFEDED;
+}
+
+.grayline {
+	border-bottom: 5px solid #F2F1F2;
+}
+
+/* 标题样式*/
+.topic {
+	font-size:14px;
+	padding: 2px 10px;
+	background: #F2F2F2;
+}
+
+.content{
+	background-color:#fefefe;
+	padding:5px 0px;
+}
+
+
+/* 城市列表 */
+#cityHeader {
+	width: 100%;
+}
+#cityList {
+	width: 100%;
+}
+
+#hotCity span,#locateCity span,#nowCity span{
+	padding-left:0px;
+	padding-right:15px;
+}
+
+#hotCity a,#locateCity a,#nowCity a{
+	text-align: center;
+	display:block;
+	width:100%;
+	margin:5px;
+	padding:5px 0px;
+	text-decoration: none;
+	color: black;
+	font-size: 12px;
+	border:1px solid #E0E0E0;
+}
+
+#cityList a {
+	text-align: center;
+	display:block;
+	text-decoration: none;
+	margin:5px;
+	width: 70px;
+	float: left;
+	padding: 2px 5px;
+	border:1px solid #E0E0E0;
+	font-size: 12px;
+}
+/* 密码复杂度框 */
+.pwd {
+	width: 10%;
+	height: 20%;
+}
+
+.pwd_f {
+	color: #BBBBBB;
+}
+
+.pwd_c {
+	background-color: #F3F3F3;
+	border-top: 1px solid #D0D0D0;
+	border-bottom: 1px solid #D0D0D0;
+	border-left: 1px solid #D0D0D0;
+}
+
+.pwd_Weak_c {
+	background-color: #FF4545;
+	border-top: 1px solid #BB2B2B;
+	border-bottom: 1px solid #BB2B2B;
+	border-left: 1px solid #BB2B2B;
+}
+
+.pwd_Medium_c {
+	background-color: #FFD35E;
+	border-top: 1px solid #E9AE10;
+	border-bottom: 1px solid #E9AE10;
+	border-left: 1px solid #E9AE10;
+}
+
+.pwd_Strong_c {
+	background-color: #3ABB1C;
+	border-top: 1px solid #267A12;
+	border-bottom: 1px solid #267A12;
+	border-left: 1px solid #267A12;
+}
+
+.pwd_c_r {
+	border-right: 1px solid #D0D0D0;
+}
+
+.pwd_Weak_c_r {
+	border-right: 1px solid #BB2B2B;
+}
+
+.pwd_Medium_c_r {
+	border-right: 1px solid #E9AE10;
+}
+
+.pwd_Strong_c_r {
+	border-right: 1px solid #267A12;
+}
+
+/* 错误提示信息 */
+.error_div {
+	height: 10px;
+	margin: 10px 0px;
+	text-align: center
+}
+
+.errormsg {
+	color: red;
+	font-size: 15px;
+}

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.p2p.webapp.message.messagemgr.dao.MessageDao">
+	<!-- 获取下一个比赛MESSAGE_ID -->
+	<select id="queryMessageId"  resultType="string">
+		SELECT IFNULL(MAX(MESSAGE_ID)+1,0) FROM T_MESSAGE
+	</select>
+	
+	<!-- 发布新消息 -->
+	<insert id="publishMessage" parameterType="MessageInfo">
+		INSERT INTO T_MESSAGE
+		(MESSAGE_ID, PUBLISHER_ID, MESSAGE_TYPE, THEME, CONTENT, CREATE_DATE)
+		VALUES
+		(#{message_id}, #{publisher_id},#{message_type},#{theme},#{content}, NOW())
+	</insert>
+	
+	<!-- 添加接收记录 -->
+	<insert id="addMessageRe" parameterType="MessageInfo">
+		INSERT INTO T_MESSAGE_RE
+		(MESSAGE_ID, USER_ID, MESSAGE_TYPE, THEME, CONTENT, CREATE_DATE)
+		VALUES
+		(#{message_id}, #{user_id},#{message_type},#{theme},#{content}, NOW())
+	</insert>
+	
+	<!-- 查询消息内容 -->
+	<select id="queryMessageDetail" parameterType="MessageReInfo" resultType="MessageReInfo">
+		SELECT M.MESSAGE_ID, M.PUBLISHER_ID, M.THEME, M.CONTENT, M.CREATE_DATE, R.STATUS, R.USER_ID
+		FROM T_MESSAGE M, T_MESSAGE_RE R
+		WHERE R.MESSAGE_ID = M.MESSAGE_ID AND M.MESSAGE_ID = #{message_id}
+	</select>
+	
+	<!-- 查询我的消息 -->
+	<select id="queryMyMessage" parameterType="MessageReInfo" resultType="MessageReInfo">
+		SELECT M.MESSAGE_ID, M.PUBLISHER_ID, M.THEME, M.CONTENT, M.CREATE_DATE, R.STATUS, R.USER_ID
+		FROM T_MESSAGE M, T_MESSAGE_RE R
+		WHERE R.MESSAGE_ID = M.MESSAGE_ID AND R.USER_ID = #{user_id}
+		ORDER BY R.STATUS, M.CREATE_DATE
+	</select>
+	
+	<select id="queryUnreadMessageCount" parameterType="String" resultType="int">
+		SELECT COUNT(RE_ID)
+		FROM T_MESSAGE_RE R
+		WHERE R.USER_ID = #{user_id} AND R.STATUS = '0'
+	</select>
+	
+	<!-- 更改消息状态为已读 -->
+	<update id="updateMessageReStatus" parameterType="MessageReInfo" >
+			UPDATE
+				T_MESSAGE_RE
+			SET
+				STATUS = #{status}				
+			WHERE
+				MESSAGE_ID = #{message_id} AND USER_ID = #{user_id}
+	</update>
+	
+	
+	
+</mapper>

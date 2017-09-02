@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<!-- Dao-->
+	<bean id="siteDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.p2p.webapp.site.sitemgr.dao.SiteDao" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+	</bean>
+	<!-- service -->
+	<bean id="siteMgrService" class="com.p2p.webapp.site.sitemgr.service.impl.SiteMgrServiceImpl">
+		<property name="siteDao" ref="siteDao" />
+	</bean>
+	<!-- action -->
+	<bean id="siteMgrAction" class="com.p2p.webapp.site.sitemgr.action.SiteMgrAction" scope="prototype">
+		<property name="siteMgrService" ref="siteMgrService"/>
+	</bean>
+	
+
+	
+</beans>

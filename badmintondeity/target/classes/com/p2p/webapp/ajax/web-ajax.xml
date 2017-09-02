@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <package name="struts-ajax"  extends="struts-pub" namespace="/ajax">
+		<action name="*_*" method="{1}" class="{2}">
+			<result name="cptsendok">/WEB-INF/views/common/ajax/ajaxtmp.jsp</result>
+				
+			<result name="newActivity">/WEB-INF/views/activity/activitymgr/newActivity.jsp</result>
+			
+			<!-- 滑动栏比赛列表 -->
+			<result name="scrollActivity">/WEB-INF/views/activity/activitymgr/scrollActivity.jsp</result>		
+		</action>
+	</package>
+
+</struts>

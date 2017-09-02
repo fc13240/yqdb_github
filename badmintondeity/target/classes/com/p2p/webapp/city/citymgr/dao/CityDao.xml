@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.p2p.webapp.city.citymgr.dao.CityDao">
+
+	<!-- 查询省市 -->
+	<select id="queryProvince" parameterType="ProvinceInfo" resultType="ProvinceInfo">
+		SELECT P.PROVINCE_CODE , P.PROVINCE_NAME
+		FROM T_CD_PROVINCE P
+		ORDER BY P.PROVINCE_ID
+	</select>
+
+	<!-- 查询城市 -->
+	<select id="queryCity" parameterType="CityInfo" resultType="CityInfo">
+		SELECT C.CITY_CODE, C.CITY_NAME
+		FROM T_CD_CITY C, T_CD_PROVINCE P
+		WHERE C.PROVINCE_CODE = P.PROVINCE_CODE 
+			AND P.PROVINCE_CODE = #{province_code}
+		ORDER BY C.CITY_CODE
+	</select>
+	
+	<!-- 通过城市名称查询城市 -->
+	<select id="queryCityDetail" parameterType="String" resultType="CityInfo">		
+		SELECT C.CITY_CODE, C.CITY_NAME
+		FROM T_CD_CITY C
+		WHERE C.CITY_NAME like CONCAT('%',#{city_name},'%')
+	</select>
+
+	<!-- 通过城市号查询区县 -->
+	<select id="queryArea" parameterType="AreaInfo" resultType="AreaInfo">
+		SELECT A.AREA_CODE, A.AREA_NAME 
+		FROM T_CD_AREA A, T_CD_CITY C
+		WHERE A.CITY_CODE = C.CITY_CODE
+			AND C.CITY_CODE = #{city_code}
+		ORDER BY A.AREA_CODE
+	</select>
+
+</mapper>

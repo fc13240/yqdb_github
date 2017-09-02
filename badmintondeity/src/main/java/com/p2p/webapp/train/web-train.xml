@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <package name="struts-train"  extends="struts-pub" namespace="/train">
+		<action name="*_*" method="{1}" class="{2}">
+			<!-- 训练初始化页面 -->
+			<result name="trainInit">/WEB-INF/views/train/trainmgr/trainInit.jsp</result>
+				
+			<!-- 详细信息 -->
+			<result name="trainDetailInfo">/WEB-INF/views/train/trainmgr/trainDetailInfo.jsp</result>
+			<!-- 训练详细信息跳转 -->
+			<result name="queryTrainDetailInfo" type="redirect">/train/queryTrainDetailInfo_trainMgrAction.action?trainId=${trainVo.train_id}</result>
+			<!-- 新增训练 -->
+			<result name="addTrain">/WEB-INF/views/train/trainmgr/allTrain.jsp</result>
+			<result name="addTrainInit">/WEB-INF/views/train/trainmgr/creatTrain.jsp</result>
+	
+		</action>
+	</package>
+</struts>

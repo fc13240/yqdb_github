@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.p2p.webapp.site.sitemgr.dao.SiteDao">
+	<sql id="querySiteWhereCondition">
+		<if test=" site_addr_district != null and site_addr_district != ''  "><![CDATA[ AND A.SITE_ADDR_DISTRICT = #{site_addr_district}]]></if>
+	</sql>
+	
+	<!-- 查询地点列表-->
+	<select id="querySite" parameterType="SiteInfo" resultType="SiteInfo">
+		SELECT
+			A.SITE_ADDR_ID, A.SITE_NAME, A.SITE_ADDR_PROVINCE, A.SITE_ADDR_CITY, A.SITE_ADDR_DISTRICT, A.SITE_ADDR_DETAIL, A.SITE_TYPE,
+			 A.SITE_OUT_IN, A.SITE_OFFICE_TELEPHONE, A.SITE_OFFICE_MANAGER, A.SITE_OFFICE_PHONE, A.SITE_DES, A.SITE_LNG, A.SITE_LAT
+		FROM T_SITE A
+		WHERE A.SITE_ADDR_CITY LIKE CONCAT('%',#{site_addr_city},'%')
+		<include refid="querySiteWhereCondition" />
+		ORDER BY A.SITE_ADDR_DISTRICT
+			
+	</select>
+	
+	<!-- 查询场地详细信息 -->
+	<select id="querySiteDetailInfo" parameterType="SiteInfo" resultType="SiteInfo">
+		SELECT
+			A.SITE_ADDR_ID, A.SITE_NAME, A.SITE_ADDR_PROVINCE, A.SITE_ADDR_CITY, A.SITE_ADDR_DISTRICT, A.SITE_ADDR_DETAIL, A.SITE_TYPE,
+			 A.SITE_OUT_IN, A.SITE_OFFICE_TELEPHONE, A.SITE_OFFICE_MANAGER, A.SITE_OFFICE_PHONE, A.SITE_DES, A.SITE_LNG, A.SITE_LAT
+		FROM T_SITE A
+		WHERE A.SITE_ADDR_ID = #{site_addr_id}
+	</select>
+	
+	<!-- 通过名字查询地点-->
+	<select id="querySiteByName" parameterType="SiteInfo" resultType="SiteInfo">
+		SELECT
+			A.SITE_ADDR_ID, A.SITE_NAME, A.SITE_ADDR_PROVINCE, A.SITE_ADDR_CITY, A.SITE_ADDR_DISTRICT, A.SITE_ADDR_DETAIL, A.SITE_TYPE,
+			 A.SITE_OUT_IN, A.SITE_OFFICE_TELEPHONE, A.SITE_OFFICE_MANAGER, A.SITE_OFFICE_PHONE, A.SITE_DES, A.SITE_LNG, A.SITE_LAT
+		FROM T_SITE A
+		WHERE A.SITE_NAME = #{site_name} AND A.SITE_ADDR_PROVINCE = #{site_addr_province} 
+			AND A.SITE_ADDR_CITY = #{site_addr_city} AND A.SITE_ADDR_DISTRICT = #{site_addr_district}
+	</select>
+	
+	<!-- 添加新场地 -->
+	<insert id="addSite" parameterType="SiteInfo">
+		INSERT INTO T_SITE
+		(SITE_ADDR_ID, SITE_NAME, SITE_ADDR_PROVINCE, SITE_ADDR_CITY, SITE_ADDR_DISTRICT, SITE_ADDR_DETAIL, SITE_TYPE,
+			 SITE_OUT_IN, SITE_OFFICE_TELEPHONE, SITE_OFFICE_MANAGER, SITE_OFFICE_PHONE, SITE_DES, SITE_LNG, SITE_LAT)
+		VALUES
+		(#{site_addr_id}, #{site_name}, #{site_addr_province}, #{site_addr_city}, #{site_addr_district}, #{site_addr_detail}, #{site_type},
+			#{site_out_in}, #{site_office_telephone}, #{site_office_manager}, #{site_office_phone},#{site_des},#{site_lng},#{site_lat})
+	</insert>
+	
+	<!-- 修改场地信息 -->
+	<update id="updateSite" parameterType="SiteInfo">
+		UPDATE T_SITE
+		SET
+			SITE_ADDR_PROVINCE = #{site_addr_province},
+			SITE_NAME = #{site_name},
+			SITE_ADDR_CITY = #{site_addr_city},
+			SITE_ADDR_DISTRICT = #{site_addr_district}, 
+			SITE_ADDR_DETAIL = #{site_addr_detail}, 
+			SITE_TYPE =  #{site_type},
+			SITE_OUT_IN = #{site_out_in},
+			SITE_OFFICE_TELEPHONE = #{site_office_telephone},
+			SITE_OFFICE_MANAGER = #{site_office_manager},
+			SITE_OFFICE_PHONE = #{site_office_phone},
+			SITE_DES = {site_office_des}
+		WHERE 
+			SITE_ADDR_ID = #{site_addr_id}
+	</update>
+
+	<!-- 删除场地信息  -->
+	<update id="deleteSite" parameterType="SiteInfo">
+		DELETE FROM T_SITE
+		WHERE 
+			SITE_ADDR_ID = #{site_addr_id}
+	</update>
+</mapper>

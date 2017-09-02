@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<settings>
+		<setting name="cacheEnabled" value="false"/>
+		<setting name="lazyLoadingEnabled" value="true"/>
+		<setting name="aggressiveLazyLoading" value="true"/>
+		<setting name="multipleResultSetsEnabled" value="true"/>
+		<setting name="useColumnLabel" value="true" />
+		<setting name="useGeneratedKeys" value="false" />
+		<setting name="autoMappingBehavior" value="PARTIAL" />
+		<setting name="defaultExecutorType" value="SIMPLE" />
+		<setting name="defaultStatementTimeout" value="25000" />
+	</settings>
+	<typeAliases>
+		<typeAlias alias="ActivityInfo" type="com.p2p.webapp.activity.activitymgr.entity.ActivityInfo"/>
+		<typeAlias alias="GroupInfo" type="com.p2p.webapp.group.groupmgr.entity.GroupInfo"/>
+		<typeAlias alias="MemberInfo" type="com.p2p.webapp.group.membermgr.entity.MemberInfo"/>
+		<typeAlias alias="EnrollInfo" type="com.p2p.webapp.enroll.enrollmgr.entity.EnrollInfo"/>
+		<typeAlias alias="SiteInfo" type="com.p2p.webapp.site.sitemgr.entity.SiteInfo"/>
+		<typeAlias alias="SettleInfo" type="com.p2p.webapp.settle.settlemgr.entity.SettleInfo"/>
+		<typeAlias alias="ProvinceInfo" type="com.p2p.webapp.city.citymgr.entity.ProvinceInfo"/>
+		<typeAlias alias="CityInfo" type="com.p2p.webapp.city.citymgr.entity.CityInfo"/>
+		<typeAlias alias="AreaInfo" type="com.p2p.webapp.city.citymgr.entity.AreaInfo"/>
+		<typeAlias alias="UserCreditInfo" type="com.p2p.webapp.user.usercenter.entity.UserCreditInfo"/>
+		<typeAlias alias="UserCreditDetailInfo" type="com.p2p.webapp.user.usercenter.entity.UserCreditDetailInfo"/>
+		<typeAlias alias="MessageInfo" type="com.p2p.webapp.message.messagemgr.entity.MessageInfo"/>
+		<typeAlias alias="MessageReInfo" type="com.p2p.webapp.message.messagemgr.entity.MessageReInfo"/>
+		
+		<typeAlias alias="MsgLog" type="com.p2p.webapp.ajax.phonecpt.entity.MsgLog"/>
+		<typeAlias alias="User" type="com.p2p.webapp.user.regist.entity.User"/>
+		<typeAlias alias="UserCtl" type="com.p2p.webapp.user.regist.entity.UserCtl"/>
+		<typeAlias alias="UserInfo" type="com.p2p.webapp.user.login.entity.UserInfo"/>
+		<typeAlias alias="OptLog" type="com.p2p.webapp.user.login.entity.OptLog"/>
+		<typeAlias alias="SystemParam" type="com.p2p.webapp.system.parammgr.entity.SystemParam"/>
+		<typeAlias alias="UserBank" type="com.p2p.webapp.user.usercenter.entity.UserBank"/>
+		<typeAlias alias="IndexCount" type="com.p2p.webapp.user.index.entity.IndexCount"/>
+		<typeAlias alias="MsgInfo" type="com.p2p.webapp.system.parammgr.entity.MsgInfo"/>
+		<typeAlias alias="MenuInfo" type="com.p2p.webapp.system.menu.entity.MenuInfo"/>
+		
+	</typeAliases>
+    <plugins>
+       <plugin interceptor="com.p2p.webapp.common.intercepts.PageIntercept">
+           <property name="databaseType" value="Oracle"/>
+       </plugin>
+    </plugins>
+</configuration>

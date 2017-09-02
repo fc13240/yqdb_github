@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.p2p.webapp.group.membermgr.dao.MemberDao">
+
+	<!-- 查询全部群成员 -->
+	<select id="queryAllMember" parameterType="MemberInfo" resultType="MemberInfo">
+		SELECT
+			M.GROUP_ID, M.USER_ID, U.USER_NAME, M.BAMEMBERS_IDENTITY, M.CREATE_DATE
+		FROM T_GROUP_MEMBERS M, T_USER U
+		WHERE M.GROUP_ID = #{group_id} AND M.USER_ID = U.USER_ID
+		ORDER BY USER_ID
+	</select>
+	
+	<!-- 查询用户身份 -->
+	<select id="queryUserIdentity" parameterType="MemberInfo" resultType="MemberInfo">
+		SELECT
+			M.GROUP_ID, M.USER_ID, M.BAMEMBERS_IDENTITY
+		FROM T_GROUP_MEMBERS M
+		WHERE M.GROUP_ID = #{group_id} AND M.USER_ID = #{user_id}
+	</select>
+
+
+	<!-- 查询管理员 -->
+	<select id="queryGroupAdmin" parameterType="MemberInfo" resultType="MemberInfo">
+		SELECT M.USER_ID, U.USER_NAME
+		FROM T_GROUP_MEMBERS M, T_USER U
+		WHERE M.GROUP_ID = #{group_id} AND M.USER_ID = U.USER_ID AND M.BAMEMBERS_IDENTITY IN ('F','M')
+		ORDER BY M.BAMEMBERS_IDENTITY 
+	</select>
+	
+	<!-- 查询群成员数 -->
+	<select id="queryMemberCount" parameterType="String" resultType="int">
+		SELECT COUNT(USER_ID)
+		FROM T_GROUP_MEMBERS
+		WHERE GROUP_ID = #{group_id} AND BAMEMBERS_IDENTITY IN ('F','M','O')
+	</select>
+	<!-- 添加新成员 -->
+	<insert id="addMember" parameterType="MemberInfo">
+		INSERT
+		INTO
+			 T_GROUP_MEMBERS(GROUP_ID, USER_ID, BAMEMBERS_IDENTITY, CREATE_DATE, UPDATE_DATE)
+		VALUES
+			(#{group_id},#{user_id},#{bamembers_identity},NOW(),NOW())
+	</insert>
+	
+	<!-- 修改成员身份信息 -->
+	<update id="updateMember" parameterType="MemberInfo">
+		UPDATE
+			T_GROUP_MEMBERS
+		SET
+			BAMEMBERS_IDENTITY = #{bamembers_identity},
+			UPDATE_DATE = NOW()
+		WHERE 
+			GROUP_ID = #{group_id} AND USER_ID = #{user_id}
+	</update>
+
+	<!-- 删除群成员 -->
+	<delete id="deleteMember" parameterType="MemberInfo">
+		DELETE FROM T_GROUP_MEMBERS
+		WHERE 
+			GROUP_ID = #{group_id} AND USER_ID = #{user_id}
+	</delete>
+</mapper>

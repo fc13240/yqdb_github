@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <package name="struts-city"  extends="struts-pub" namespace="/city">
+		<action name="*_*" method="{1}" class="{2}">
+			<!-- 区县 -->
+			<result name="areaInfo">/WEB-INF/views/city/citymgr/areaInfo.jsp</result>
+			<!-- 城市列表 -->
+			<result name="cityIndexPage">/WEB-INF/views/city/citymgr/cityList.jsp</result>
+			<!-- 定位 -->
+			<result name="location">/WEB-INF/views/city/citymgr/location.jsp</result>
+		</action>
+	</package>
+</struts>

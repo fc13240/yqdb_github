@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.p2p.webapp.user.usercenter.dao.UserCenterDao">
+
+	<!-- 根据用户ID查询用户 -->
+	<select id="queryUserById" parameterType="string" resultType="UserInfo">
+		SELECT 
+			T1.USER_ID,T1.USER_CDE,T1.USER_STATUS,T1.USER_TYPE,T1.USER_NAME,T1.USER_HEADIMGURL,T1.USER_NICKNAME,T1.PHONE,T1.MAIL,
+			T1.CERTIF_TYPE,T1.CERTIF_NO,T1.CREATE_DATE,T1.USER_CREDIT,T1.RECOD_PHONE,T1.UPDATE_DATE,T2.LOGIN_PWD,
+			T2.TRAN_PWD,T2.ERR_COUNT,T2.SECTY_LEVEL,T1.WEIXIN_ID
+		FROM
+			T_USER T1,T_SECTY_CTL T2
+		WHERE
+			T1.USER_ID = T2.USER_ID AND T1.USER_ID = #{userid}
+	</select>
+	<!-- 根据用户的手机查询用户 -->
+	<select id="queryUserInfoByPhoneNum" parameterType="string" resultType="User">
+		SELECT 
+			USER_CDE,USER_STATUS,USER_TYPE,USER_NAME,PHONE,MAIL,CERTIF_TYPE,CERTIF_NO,CREATE_DATE,UPDATE_DATE
+		FROM
+			T_USER
+		WHERE
+			PHONE = #{userPhone}
+	</select>
+	
+	<!-- 更新客户基本信息 -->
+	<update id="updateUserById" parameterType="Map">
+		UPDATE
+			T_USER
+		SET
+			USER_CDE =  #{user_cde},PHONE =  #{phone},USER_NAME =  #{user_name},USER_NICKNAME =  #{user_nickname},MAIL =  #{mail},
+			CERTIF_TYPE =  #{certif_type},WEIXIN_ID = #{user_weixin_id},CERTIF_NO =  #{certif_no},RECOD_PHONE =  #{recod_phone},UPDATE_DATE =  NOW()
+		WHERE
+			USER_ID = #{userid}
+	</update>
+	
+	<select id="queryUserByWeixinOpenId" parameterType="string" resultType="UserInfo">
+		SELECT 
+			T1.USER_ID,T1.USER_CDE,T1.USER_STATUS,T1.USER_TYPE,T1.USER_NAME,T1.USER_NICKNAME,T1.PHONE,T1.MAIL,
+			T1.CERTIF_TYPE,T1.CERTIF_NO,T1.CREATE_DATE,T1.USER_CREDIT,T1.RECOD_PHONE,T1.UPDATE_DATE,T2.LOGIN_PWD,
+			T2.TRAN_PWD,T2.ERR_COUNT,T2.SECTY_LEVEL,T1.WEIXIN_ID
+		FROM
+			T_USER T1,T_SECTY_CTL T2
+		WHERE
+			T1.USER_ID = T2.USER_ID AND T1.WEIXIN_ID = #{weixin_open_id}
+	</select>
+	
+	<!-- 查询用户积分 -->
+	<select id="queryUserCredit" parameterType="UserCreditInfo" resultType="UserCreditInfo">
+		SELECT
+			A.ACCOUNT_ID, A.USER_ID, A.ACC_TYPE, A.ACC_STATUS, A.ACC_OPEN_DATE, A.ACC_BALANCE, A.ACC_FREEZE, 
+			A.ACC_ENCHASH, A.CREATE_DATE, A.UPDATE_DATE
+		FROM T_ACC_CREDIT A
+		WHERE A.USER_ID = #{user_id}
+	</select>
+	
+	<!-- 获取下一个T_ACC_CREDIT account_id -->
+	<select id="queryAccountId"  resultType="string">
+		SELECT IFNULL(MAX(ACCOUNT_ID)+1,0) FROM T_ACC_CREDIT
+	</select>
+	
+	<!-- 新增用户积分记录 -->
+	<insert id="addUserCredit" parameterType="UserCreditInfo">
+		INSERT INTO T_ACC_CREDIT
+			(ACCOUNT_ID, USER_ID, ACC_TYPE, ACC_STATUS, ACC_OPEN_DATE, ACC_BALANCE, ACC_FREEZE, ACC_ENCHASH, CREATE_DATE, UPDATE_DATE)
+		VALUES
+			(#{account_id}, #{user_id}, 'C', 0, NOW(), #{acc_balance}, 0, 0, NOW(), NOW())
+	</insert>
+	
+	<!-- 修改用户积分记录 -->
+	<update id="updateUserCredit" parameterType="UserCreditInfo" >
+			UPDATE
+				T_ACC_CREDIT
+			SET
+				ACC_STATUS = #{acc_status},
+				ACC_BALANCE = #{acc_balance},
+				ACC_FREEZE = #{acc_freeze},
+				ACC_ENCHASH = #{acc_enchash},				
+				UPDATE_DATE = NOW()
+			WHERE
+				USER_ID = #{user_id}
+	</update>
+
+	<!-- 查询用户积分明细 -->
+	<select id="queryUserCreditDetail" parameterType="UserCreditDetailInfo" resultType="UserCreditDetailInfo">
+		SELECT
+			A.ACCOUNT_ID, A.USER_ID, A.BS_TYPE, A.BS_NO, A.ACC_TRAN_TYPE, A.AMNT, A.ENROLL_ID, 
+			A.EXT2, A.EXT3, A.CREATE_DATE, A.UPDATE_DATE
+		FROM T_ACC_CREDIT_DETAIL A
+		WHERE A.USER_ID = #{user_id} AND A.ACCOUNT_ID = #{account_id} AND A.ACC_TRAN_TYPE !=""
+	</select>
+	
+	<!-- 新增用户积分记录 -->
+	<insert id="addUserCreditDetail" parameterType="UserCreditInfo">
+		INSERT INTO T_ACC_CREDIT_DETAIL
+			(ACCOUNT_ID, USER_ID, BS_TYPE, BS_NO, ACC_TRAN_TYPE, AMNT, ENROLL_ID, EXT2, EXT3, CREATE_DATE, UPDATE_DATE)
+		VALUES
+			(#{account_id}, #{user_id}, #{bs_type}, #{bs_no}, #{acc_tran_type}, #{amnt}, #{enroll_id}, #{ext2}, #{ext3}, NOW(), NOW())
+	</insert>
+	
+	<!-- 通过enrollid查询当次积分变动 -->
+	<select id="queryCreditDetailByEnrollId" parameterType="String" resultType="UserCreditDetailInfo">
+		SELECT
+			A.ACCOUNT_ID, A.USER_ID, A.BS_TYPE, A.BS_NO, A.ACC_TRAN_TYPE, A.AMNT, A.ENROLL_ID, 
+			A.EXT2, A.EXT3, A.CREATE_DATE, A.UPDATE_DATE
+		FROM T_ACC_CREDIT_DETAIL A
+		WHERE A.ENROLL_ID = #{enroll_id}
+	</select>
+	
+	<!-- 通过enrollid修改当次积分变动 -->
+	<update id="updateCreditDetailByEnrollId" parameterType="UserCreditDetailInfo" >
+		UPDATE
+			T_ACC_CREDIT_DETAIL
+		SET
+			ACC_TRAN_TYPE = #{acc_tran_type},		
+			UPDATE_DATE = NOW()
+		WHERE
+			ENROLL_ID = #{enroll_id}
+	</update>
+	
+	<!-- 通过enrollid删除积分变动 -->
+	<delete id="delCreditDetailByEnrollId" parameterType="String" >
+		DELETE FROM T_ACC_CREDIT_DETAIL			
+		WHERE ENROLL_ID = #{enroll_id}	
+	</delete>
+	
+	
+	
+	
+	<!-- 查询客户银行信息 -->
+	<select id="queryBankInfo" parameterType="string" resultType="UserBank">
+		SELECT
+			USER_BANK_ACC_ID,USER_ID,BANK_CODE,BANK_NAME,BANK_BRANCH_NAME,BANK_ACC_CODE,DEFAULT_FLAG,CREATE_DATE,UPDATE_DATE
+		FROM
+			T_BANK_ACC
+		WHERE
+			USER_ID = #{userid}
+	</select>
+	<!-- 插入客户银行信息 -->
+	<insert id="insertBankInfo" parameterType="Map">
+		INSERT
+		INTO
+			T_BANK_ACC(USER_ID,BANK_CODE,BANK_NAME,BANK_BRANCH_NAME,BANK_ACC_CODE,DEFAULT_FLAG,CREATE_DATE,UPDATE_DATE)
+		VALUES
+			(#{user_id},#{bank_code},#{bank_name},#{bank_branch_name},#{bank_acc_code},#{default_flag},NOW(),NOW())
+	</insert>
+	<!-- 更新客户银行卡信息 -->
+	<update id="updateBankInfo" parameterType="Map">
+		UPDATE
+			T_BANK_ACC
+		SET
+			BANK_CODE=#{bank_code},BANK_NAME=#{bank_name},BANK_BRANCH_NAME=#{bank_branch_name},BANK_ACC_CODE=#{bank_acc_code},UPDATE_DATE= NOW()
+		WHERE
+			USER_BANK_ACC_ID=#{user_bank_acc_id}
+	</update>
+	<!-- 设置用户默认银行卡为否 -->
+	<update id="updateUserBankDefaultNo" parameterType="Map">
+		UPDATE
+			T_BANK_ACC
+		SET
+			DEFAULT_FLAG = '0',UPDATE_DATE= NOW()
+		WHERE
+			USER_ID=#{user_id}
+	</update>
+	<!-- 设置用户默认银行卡 -->
+	<update id="updateUserBankDefault" parameterType="Map">
+		UPDATE
+			T_BANK_ACC
+		SET
+			DEFAULT_FLAG = '1',UPDATE_DATE= NOW()
+		WHERE
+			USER_ID=#{user_id} AND USER_BANK_ACC_ID=#{user_bank_acc_id}
+	</update>
+	<!-- 删除银行卡信息 -->
+	<delete id="delBankInfo" parameterType="string">
+		DELETE
+		FROM
+			T_BANK_ACC
+		WHERE
+			USER_BANK_ACC_ID=#{user_bank_acc_id}
+	</delete>
+	<!-- 修改登录密码 -->
+	<update id="updateLoginPwd" parameterType="string">
+		UPDATE
+			T_SECTY_CTL
+		SET
+			LOGIN_PWD = #{login_pwd},
+			UPDATE_DATE = NOW()
+		WHERE
+			USER_ID=#{user_id}
+	</update>
+	<!-- 修改支付密码 -->
+	<update id="updateTranPwd" parameterType="string">
+		UPDATE
+			T_SECTY_CTL
+		SET
+			TRAN_PWD = #{tran_pwd},
+			UPDATE_DATE = NOW()
+		WHERE
+			USER_ID=#{user_id}
+	</update>
+	<!-- 根据用户ID、登录密码查询用户 -->
+	<select id="queryUserByIdPd" parameterType="string" resultType="string">
+		SELECT 
+			USER_ID
+		FROM
+			T_SECTY_CTL
+		WHERE
+			USER_ID = #{user_id} AND LOGIN_PWD = #{login_pwd}
+	</select>
+	
+	
+</mapper>

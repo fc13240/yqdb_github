@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<package name="struts-site" extends="struts-pub" namespace="/site">
+		<action name="*_*" method="{1}" class="{2}">
+			<!-- 地点 -->
+			<result name="siteList">/WEB-INF/views/site/sitemgr/siteList.jsp</result>
+			<!-- 新增地点 地图选点 -->
+			<result name="addSiteInit">/WEB-INF/views/site/sitemgr/addSite.jsp</result>
+		</action>
+	</package>
+</struts>

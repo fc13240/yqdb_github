@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <package name="struts-activity"  extends="struts-pub" namespace="/activity">
+		<action name="*_*" method="{1}" class="{2}">
+			<!-- 比赛初始化页面 -->
+			<result name="activityInit">/WEB-INF/views/activity/activitymgr/activityInit.jsp</result>
+				
+			<!-- 详细信息 -->
+			<result name="activityDetailInfo">/WEB-INF/views/activity/activitymgr/activityDetailInfo.jsp</result>
+			<!-- 比赛详细信息跳转 -->
+			<result name="queryActivityDetailInfo" type="redirect">/activity/queryActivityDetailInfo_activityMgrAction.action?activityId=${activityVo.activity_id}</result>
+			<!-- 新增比赛 -->
+			<result name="addActivity">/WEB-INF/views/activity/activitymgr/allActivity.jsp</result>
+			<result name="addActivityInit">/WEB-INF/views/activity/activitymgr/creatActivity.jsp</result>
+			
+			<!-- 详细报名信息 -->
+			<result name="enrollDetailInfo" type="redirect">/enroll/queryAllEnroll_enrollMgrAction.action</result>
+		</action>
+	</package>
+</struts>

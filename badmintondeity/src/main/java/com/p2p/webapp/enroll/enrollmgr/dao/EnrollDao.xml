@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.p2p.webapp.enroll.enrollmgr.dao.EnrollDao">
+	<sql id="queryMyEnrollCondition">
+		<if test=" status != null and status != ''  "><![CDATA[ AND A.STATUS = #{status} ]]></if>
+	</sql>
+	
+	<!-- 查询全部报名 -->
+	<select id="queryAllEnroll" parameterType="EnrollInfo" resultType="EnrollInfo">
+		SELECT
+			A.ENROLL_ID, A.ACTIVITY_ID, A.USER_ID, A.IDENTITY, A.STATUS, A.NUMBER, A.PAY_TYPE, A.ACC_NO, 
+			 A.PAY_ID, A.PAY_DATE, A.ORIGINAL_COST, A.COST, A.SETTLE_ID, A.SIGN_IN, U.USER_NAME
+		FROM T_ACTIVITY_ENROLL A , T_USER U
+			WHERE A.ACTIVITY_ID = #{activity_id} AND A.STATUS =1 AND A.USER_ID = U.USER_ID 
+	</select>
+	
+	<!-- 查询报名详细信息 -->
+	<select id="queryEnrollDetailInfo" parameterType="EnrollInfo" resultType="EnrollInfo">
+		SELECT
+			A.ENROLL_ID, A.ACTIVITY_ID, A.USER_ID, A.IDENTITY, A.STATUS, A.NUMBER, A.PAY_TYPE, A.ACC_NO,
+			 A.PAY_ID, A.PAY_DATE, A.ORIGINAL_COST, A.COST, A.SETTLE_ID, A.SIGN_IN, U.USER_NAME, M.ACTIVITY_NAME
+		FROM T_ACTIVITY_ENROLL A , T_USER U, T_ACTIVITY_MANAGE M
+		WHERE A.ENROLL_ID = #{enroll_id} AND A.USER_ID = U.USER_ID 
+				AND A.ACTIVITY_ID = M.ACTIVITY_ID 
+	</select>
+	
+	<!-- 查询我的报名 -->	
+	<select id="queryMyEnroll" parameterType="EnrollInfo" resultType="EnrollInfo">
+		SELECT
+			A.ENROLL_ID, A.ACTIVITY_ID, A.USER_ID, A.IDENTITY, A.STATUS, A.NUMBER, A.PAY_TYPE, A.ACC_NO, 
+			 A.PAY_ID, A.PAY_DATE, A.ORIGINAL_COST, A.COST, A.SETTLE_ID, A.SIGN_IN, M.ACTIVITY_NAME
+		FROM T_ACTIVITY_ENROLL A, T_ACTIVITY_MANAGE M
+			WHERE A.USER_ID = #{user_id} AND A.ACTIVITY_ID = M.ACTIVITY_ID 
+		<include refid="queryMyEnrollCondition" />
+		ORDER BY A.ENROLL_ID
+	</select>
+	
+	<!-- 查询已报名总人数 -->
+	<select id="queryEnrollCount" parameterType="EnrollInfo" resultType="String">
+		SELECT SUM(NUMBER) FROM T_ACTIVITY_ENROLL A
+			WHERE A.ACTIVITY_ID = #{activity_id} AND A.STATUS = 1
+	</select>
+	
+	<!-- 查询报名费用总和 -->
+	<select id="querySumMoney" parameterType="EnrollInfo" resultType="String">
+		SELECT SUM(ORIGINAL_COST) FROM T_ACTIVITY_ENROLL A
+			WHERE A.ACTIVITY_ID = #{activity_id} AND A.STATUS = 1
+	</select>
+	
+	<!-- 获取下一个比赛ENROLL_ID -->
+	<select id="queryEnrollId"  resultType="string">
+		SELECT IFNULL(MAX(ENROLL_ID)+1,0) FROM T_ACTIVITY_ENROLL
+	</select>
+	
+	<!-- 添加新报名 -->
+	<insert id="addEnroll" parameterType="EnrollInfo">
+		INSERT INTO T_ACTIVITY_ENROLL
+		(ENROLL_ID, ACTIVITY_ID, USER_ID, IDENTITY, STATUS, NUMBER, PAY_TYPE, ACC_NO,
+			 PAY_ID, PAY_DATE, ORIGINAL_COST, COST, SETTLE_ID, SIGN_IN, CREATE_DATE, UPDATE_DATE)
+		VALUES
+		(#{enroll_id}, #{activity_id}, #{user_id}, 0, 0, #{number}, #{pay_type}, null, #{pay_id}, null, #{original_cost},
+			#{cost}, #{settle_id}, 0, NOW(), NOW())
+	</insert>
+	
+	<!-- 修改报名信息 -->
+	<update id="updateEnroll" parameterType="EnrollInfo">
+		UPDATE
+			T_ACTIVITY_ENROLL
+		SET
+			STATUS = #{status},				
+			PAY_TYPE = #{pay_type},
+			PAY_DATE = #{pay_date},
+			SETTLE_ID = #{settle_id},
+			UPDATE_DATE = NOW()
+		WHERE 
+			ENROLL_ID = #{enroll_id}
+	</update>
+	
+	<!-- 交费成功后更新 -->
+	<update id="payEnroll" parameterType="EnrollInfo">
+		UPDATE
+			T_ACTIVITY_ENROLL
+		SET
+			STATUS = 1,				
+			PAY_TYPE = #{pay_type},
+			ACC_NO = #{acc_no},
+			PAY_ID = #{pay_id},
+			PAY_DATE = #{pay_date},
+			UPDATE_DATE = NOW()
+		WHERE 
+			ENROLL_ID = #{enroll_id}
+	</update>
+
+	<!-- 取消报名  -->
+	<update id="cancelEnroll" parameterType="EnrollInfo">
+		UPDATE
+			T_ACTIVITY_ENROLL
+		SET
+			STATUS = 2,
+			UPDATE_DATE = NOW()
+		WHERE 
+			ENROLL_ID = #{enroll_id}
+	</update>
+	
+	<!-- 签到  -->
+	<update id="signIn" parameterType="String">
+		UPDATE
+			T_ACTIVITY_ENROLL
+		SET
+			SIGN_IN = 1,
+			UPDATE_DATE = NOW()
+		WHERE 
+			ENROLL_ID = #{enroll_id}
+	</update>
+</mapper>
