@@ -98,5 +98,6 @@
 	<import resource="com/p2p/webapp/city/service-city.xml"/>
 	<import resource="com/p2p/webapp/rank/service-rank.xml"/>
 	<import resource="com/p2p/webapp/message/service-message.xml"/>
+	<import resource="com/p2p/webapp/train/service-train.xml"/>
 	
 </beans>

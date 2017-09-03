@@ -44,7 +44,7 @@
 
 			<div class="form-group has-feedback">
 				<div class="col-sm-12">
-					<input type="submit" id="regist" disabled="disabled"
+					<input type="submit" id="regist" 
 						class="btn btn-large btn-block btn-success" value="登录">
 				</div>
 			</div>

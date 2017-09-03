@@ -82,7 +82,8 @@ public class BizIntercept extends MethodFilterInterceptor {
                             logger.info("cookie无记录 跳转至注册页面");
                             // String backUrl =
                             // "http://www.shuttler.cn/p2pstock/regist/registInit_registAction.action";
-                            String backUrl = "http://yiqidongba.cn/p2pstock/regist/registInit_registAction.action";
+                            String backUrl = "http://127.0.0.1：8080/p2pstock/regist/registInit_registAction.action";
+                            //String backUrl = "http://yiqidongba.cn/p2pstock/regist/registInit_registAction.action";
                             respone.sendRedirect(backUrl);
                             return null;
                         }

@@ -56,4 +56,5 @@
 	<include file="com/p2p/webapp/rank/web-rank.xml" />
 	<include file="com/p2p/webapp/group/web-member.xml" />
 	<include file="com/p2p/webapp/message/web-message.xml" />
+	<include file="com/p2p/webapp/train/web-train.xml" />
 </struts>

@@ -26,9 +26,9 @@
 			</a>
 		</div>
 		<div style="width:25%; float:left;height: 50px;text-align:center;">		
-			<a href="/p2pstock/activity/queryActivityInit_activityMgrAction.action?menucode=ACTIVITYPAGE">
+			<a href="/p2pstock/train/queryTrainInit_trainMgrAction.action?menucode=ACTIVITYPAGE">
 				<dt><img id="activityImg" src="/p2pstock/static/images/mainpageIcon/iconfont-badminton.png" width=25px/></dt>
-				<span id="activityDD" style="color:#999999">比赛</span>	
+				<span id="activityDD" style="color:#999999">训练</span>	
 			</a>
 		</div>
 		<div style="width:25%;float:left;height:50px;text-align:center;">
