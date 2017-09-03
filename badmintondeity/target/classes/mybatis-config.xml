@@ -27,6 +27,7 @@
 		<typeAlias alias="UserCreditDetailInfo" type="com.p2p.webapp.user.usercenter.entity.UserCreditDetailInfo"/>
 		<typeAlias alias="MessageInfo" type="com.p2p.webapp.message.messagemgr.entity.MessageInfo"/>
 		<typeAlias alias="MessageReInfo" type="com.p2p.webapp.message.messagemgr.entity.MessageReInfo"/>
+		<typeAlias alias="TrainInfo" type="com.p2p.webapp.train.trainmgr.entity.TrainInfo"/>
 		
 		<typeAlias alias="MsgLog" type="com.p2p.webapp.ajax.phonecpt.entity.MsgLog"/>
 		<typeAlias alias="User" type="com.p2p.webapp.user.regist.entity.User"/>

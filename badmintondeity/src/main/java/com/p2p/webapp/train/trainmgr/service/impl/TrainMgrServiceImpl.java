@@ -51,7 +51,7 @@ public class TrainMgrServiceImpl implements TrainMgrService {
     }
 
     /**
-     * @description 新增比赛
+     * @description 新增训练
      * @version
      * @title
      * @author
