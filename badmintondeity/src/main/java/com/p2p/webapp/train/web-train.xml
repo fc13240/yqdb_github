@@ -6,8 +6,15 @@
     <package name="struts-train"  extends="struts-pub" namespace="/train">
 		<action name="*_*" method="{1}" class="{2}">
 			<!-- 训练初始化页面 -->
-			<result name="trainInit">/WEB-INF/views/train/trainmgr/trainInit.jsp</result>
-				
+			<result name="trainInit">/WEB-INF/views/train/trainmgr/trainStart.jsp</result>
+
+			<result name="trainRuning">/WEB-INF/views/train/trainmgr/trainRuning.jsp</result>
+
+			<result name="trainEnd">/WEB-INF/views/train/trainmgr/trainEnd.jsp</result>
+
+			<result name="trainShare">/WEB-INF/views/train/trainmgr/trainShare.jsp</result>
+
+
 			<!-- 详细信息 -->
 			<result name="trainDetailInfo">/WEB-INF/views/train/trainmgr/trainDetailInfo.jsp</result>
 			<!-- 训练详细信息跳转 -->

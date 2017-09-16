@@ -84,11 +84,11 @@
 				<div>发起比赛</div>
 			</div>
 			<div style="width:23%;float:left;text-align:center;border-right:1px solid #DCDCDC">	
-				<div><a href="/p2pstock/activity/addActivityInit_activityMgrAction.action"><img src="/p2pstock/static/images/mainpageIcon/iconfont-contest.png" /></a></div>
+				<div><a href="/p2pstock/activity/addActivityInit_activityMgrAction.action"><img src="/p2pstock/static/images/mainpageIcon/guanlibisai.png" /></a></div>
 				<div>管理比赛</div>
 			</div>
 			<div style="width:23%;float:left;text-align:center">	
-				<div><a href="/p2pstock/settle/queryAllSettle_settleMgrAction.action"><img src="/p2pstock/static/images/mainpageIcon/iconfont-recharge-green.png" /></a></div>
+				<div><a href="/p2pstock/settle/queryAllSettle_settleMgrAction.action"><img src="/p2pstock/static/images/mainpageIcon/chengjibaogao.png" /></a></div>
 				<div>成绩管理</div>
 			</div>
 		</div>
@@ -108,11 +108,11 @@
 				<div>查找比赛</div>
 			</div>
 			<div style="width:23%;float:left;text-align:center;border-right:1px solid #DCDCDC">	
-				<div><a href="/p2pstock/activity/queryActivityInit_activityMgrAction.action"><img src="/p2pstock/static/images/mainpageIcon/iconfont-join-match.png" /></a></div>
+				<div><a href="/p2pstock/activity/queryActivityInit_activityMgrAction.action"><img src="/p2pstock/static/images/mainpageIcon/canjiabisai.png" /></a></div>
 				<div>参加比赛</div>
 			</div>			
 			<div style="width:23%;float:left;text-align:center">
-				<div><a href="/p2pstock/enroll/queryMyEnroll_enrollMgrAction.action"><img src="/p2pstock/static/images/mainpageIcon/iconfont-refund-green.png" /></a></div>
+				<div><a href="/p2pstock/enroll/queryMyEnroll_enrollMgrAction.action"><img src="/p2pstock/static/images/mainpageIcon/wodechengji.png" /></a></div>
 				<div>我的成绩</div>
 			</div>
 		</div>

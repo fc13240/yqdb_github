@@ -51,6 +51,28 @@ public class TrainMgrAction extends BaseAction {
         return "trainInit";
     }
 
+
+    public String trainRuning(){
+        String userid = (String) request.getSession().getAttribute(Constant.getSession_userid());
+        userInfoVo = userCenterService.queryUserInfo(userid);
+        logger.debug("开始训练页面");
+        return "trainRuning";
+    }
+
+    public String trainEnd(){
+        String userid = (String) request.getSession().getAttribute(Constant.getSession_userid());
+        userInfoVo = userCenterService.queryUserInfo(userid);
+        logger.debug("训练结束页面");
+        return "trainEnd";
+    }
+
+    public String trainShare(){
+        String userid = (String) request.getSession().getAttribute(Constant.getSession_userid());
+        userInfoVo = userCenterService.queryUserInfo(userid);
+        logger.debug("训练分享页面");
+        return "trainShare";
+    }
+
     /**
      * @description 滑动栏查询训练
      * @version

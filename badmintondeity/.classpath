@@ -54,5 +54,6 @@
 	<classpathentry kind="lib" path="E:/Users/admin/workspace/badmintondeity/src/main/webapp/WEB-INF/lib/javax.jms.jar"/>
 	<classpathentry kind="lib" path="E:/Users/admin/workspace/badmintondeity/src/main/webapp/WEB-INF/lib/jstl.jar"/>
 	<classpathentry kind="lib" path="E:/Users/admin/workspace/badmintondeity/src/main/webapp/WEB-INF/lib/standard.jar"/>
+	<classpathentry kind="lib" path="E:/yqdb_github_work/badmintondeity/src/main/webapp/WEB-INF/lib/httpstest.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -28,8 +28,9 @@
 			<div>
 				<span><b><s:property value="activity_name" /></b></span>
 				<span style="float:right">
-					<span style="color:#FF8C00;">￥<b><s:property value="enroll_roll_id" /></b></span>
-					<span style="font-size:12px;">已报名  xx/xx人</span>
+					<!--<span style="color:#FF8C00;">￥<b><s:property value="enroll_roll_id" /></b></span>-->
+					<span style="font-size:12px;">缺赛扣除积分</span><span style="color:#FF8C00;"><b><s:property value="enroll_roll_id" /></b></span>
+					<!--<span style="font-size:12px;">已报名  xx/xx人</span>-->
 				</span>
 			</div>
 			<div style="font-size:12px;padding:1px">
@@ -39,7 +40,7 @@
 				<span style="float:right;width:60%">
 					<span><i class="fa fa-map-marker" style="color:#6495ED"></i></span>
 					<span><s:property value="site_name" /></span>
-					<span style="float:right">xxkm</span>
+					<!--<span style="float:right">xxkm</span>-->
 				</span>
 			</div>
 		</div>
